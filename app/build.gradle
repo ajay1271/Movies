@@ -13,7 +13,7 @@ android {
         minSdk 21
         targetSdk 32
         versionCode 1
-        versionName "1.0"
+        versionName "1.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -83,8 +83,6 @@ dependencies {
 
     implementation "androidx.paging:paging-runtime:$paging_version"
 
-    //shimmer
-    implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
     //nav drawer
     implementation "com.google.android.material:material:$version"

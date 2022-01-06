@@ -94,7 +94,6 @@ class MoviesFragment : Fragment() {
         model.movieData.observe(viewLifecycleOwner, Observer { it ->
             //Updating viewpaget first then grid view
             updateViewPager(it)
-            updateGridView(it)
         }
         )
     }
@@ -139,6 +138,9 @@ class MoviesFragment : Fragment() {
 
         }
         viewPager.setPageTransformer(compositePageTransformer)
+
+        updateGridView(imagesList)
+
 
 
 //        viewPager.registerOnPageChangeCallback(
