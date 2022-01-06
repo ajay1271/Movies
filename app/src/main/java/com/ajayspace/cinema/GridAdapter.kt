@@ -9,62 +9,38 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.findNavController
+import com.ajayspace.api.Constants
 import com.ajayspace.models.MovieResult
 import com.bumptech.glide.Glide
 
 class GridAdapter(var activity: FragmentActivity?, var result: List<MovieResult>?) : BaseAdapter() {
     private var layoutInflater: LayoutInflater? = null
     private lateinit var img: ImageView
-    override fun getCount(): Int {
-        return result!!.size
-    }
 
-    override fun getItem(p0: Int): Any? {
-        return null
-    }
+    override fun getCount(): Int { return result!!.size }
 
-    override fun getItemId(p0: Int): Long {
-        return 0
-    }
+    override fun getItem(p0: Int): Any? { return null }
 
-    override fun getView(
-        position: Int,
-        convertView: View?,
-        parent: ViewGroup
-    ): View {
+    override fun getItemId(p0: Int): Long { return 0 }
+
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
 
         var convertView = convertView
-
         if (convertView == null) {
-            // Layout Inflater inflates each item to be displayed in GridView.
             convertView = LayoutInflater.from(activity).inflate(R.layout.img_item, parent, false);
         }
 
         img = convertView!!.findViewById(R.id.img)
-//        img.layoutParams.height = 600;
+
+        //Changing size of image
         img.layoutParams.width = 350;
-        img.layoutParams.height = 600;
+        img.layoutParams.height = 500;
 
-        Log.i("fx","img--->${result?.get(position)?.poster_path}")
-
-
-        activity?.let { Glide.with(it).load(result?.get(position)?.poster_path).into(img) };
+        activity?.let { Glide.with(it).load(Constants.POSTER_BASE_URL+result?.get(position)?.poster_path).into(img) };
 
         img.setOnClickListener {
-            var movieId = 0;
-
-
-            if (result?.get(position)?.id != null) {
-                movieId = result?.get(position)?.id!!
-            }
-            Toast.makeText(activity, "${result?.get(position)?.id}", Toast.LENGTH_LONG).show()
-            it.findNavController()
-                .navigate(MoviesFragmentDirections.actionMoviesFragmentToDetailsFragment(movieId))
+            it.findNavController().navigate(MoviesFragmentDirections.actionMoviesFragmentToDetailsFragment(result!![position].id))
         }
-
         return convertView
-
-
     }
-
 }

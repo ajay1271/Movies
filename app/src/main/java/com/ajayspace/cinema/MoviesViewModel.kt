@@ -10,6 +10,7 @@ import com.ajayspace.api.TmdbEndpoints
 import com.ajayspace.models.MovieDetailModel
 import com.ajayspace.models.MovieResult
 import com.ajayspace.models.PopularMovies
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -17,14 +18,11 @@ import retrofit2.Response
 
 class MoviesViewModel : ViewModel() {
 
-
     var page = 1;
-    var list = mutableListOf<MovieResult>()
     var movieData = MutableLiveData<List<MovieResult>>()
-    var updatedMovieData = MutableLiveData<List<MovieResult>>()
+    var searchResultData = MutableLiveData<List<MovieResult>>()
     var movieDetailsLiveData = MutableLiveData<MovieDetailModel>()
-
-    var movieDetails: MovieDetailModel? = null
+    var list = mutableListOf<MovieResult>()
 
     init {
         getMovies()
@@ -36,96 +34,80 @@ class MoviesViewModel : ViewModel() {
         }
     }
 
-    fun getMovieDetails(id: Int) {
-        Log.i("detailsFragment", "getMovieDetails-->")
+    fun getSearchResults(query:String) {
+        viewModelScope.launch{
+           getResults(query)
+        }
+    }
+    fun getMovieDetails(id: Int)     {
         viewModelScope.launch {
             getMovieDetailsData(id)
         }
     }
 
-
-    private suspend fun getMovieDetailsData(movieId: Int) {
-
-        Log.i("detailsFragment", "getMovieDetailsData-->")
-
-        var movieDetailModel: MovieDetailModel? = null
+    //get movie search results
+    private suspend fun getResults(query: String) {
         val request = ServiceBuilder.buildService(TmdbEndpoints::class.java)
+        val searchResultCall = request.searchMovies(Constants.API_KEY,query)
+        Log.i("Search","${searchResultCall.request().url}")
+        searchResultCall.enqueue(object : Callback<PopularMovies>{
+            override fun onResponse(call: Call<PopularMovies>, response: Response<PopularMovies>) {
+                if(response.isSuccessful){
+                    Log.e("call","${response.body()}")
+                    searchResultData.value = response.body()?.results
+                }
+            }
+            override fun onFailure(call: Call<PopularMovies>, t: Throwable) {
+                Log.e("call","$t")
+            }
+        })
+    }
 
-
+    //get details of a particular movie with movie id
+    private suspend fun getMovieDetailsData(movieId: Int) {
+        val request = ServiceBuilder.buildService(TmdbEndpoints::class.java)
         val movieDetailsCall = request.getMovieDetails(movieId, Constants.API_KEY)
-
-        var url = movieDetailsCall.request().url.toString()
-
-        Log.i("detailsFragment", "getMovieDetailsData-->${movieDetailsCall.request().url}")
-
         movieDetailsCall.enqueue(object : Callback<MovieDetailModel> {
             override fun onResponse(
                 call: Call<MovieDetailModel>,
                 response: Response<MovieDetailModel>
             ) {
                 if (response.isSuccessful) {
-                    Log.i("detailsFragment", "getMovieDetailsData.isSuccessful-->")
-                    // Log.i("Retrofit", response.body().toString())
-                    movieDetailModel = response.body()
-                    updateMovieDetailsUI(movieDetailModel)
+                    movieDetailsLiveData.value = response.body()
                 }
             }
-
             override fun onFailure(call: Call<MovieDetailModel>, t: Throwable) {
-                Log.i("detailsFragment", "getMovieDetailsData.failed--> $t")
-                // Log.i("Retrofit", t.toString())
+                Log.e("Error","$t")
             }
-
-        }
-
-
-        )
-
-
+        })
     }
 
+    // get now playing movies
     private suspend fun getMoviesData() {
-        Log.i("Retrofit", "getMoviesData-->")
-
         val request = ServiceBuilder.buildService(TmdbEndpoints::class.java)
         val call = request.getMovies(Constants.API_KEY, page)
-
-        Log.i("Retrofit", "Retrofit url-->${call.request().url.toString()}")
-
         call.enqueue(object : Callback<PopularMovies> {
             override fun onResponse(
                 call: Call<PopularMovies>,
                 response: Response<PopularMovies>
-            ) {
+            ){
                 if (response.isSuccessful) {
-                    Log.i("Retrofit", "success")
-                    response.body()?.results?.forEach {
-                        it.backdrop_path = Constants.BACKDROP_IMG_BASE_URL + it.backdrop_path
-                        it.poster_path = Constants.POSTER_BASE_URL + it.poster_path
-                        list.add(it)
-                    }
-                    updateDashboardUI(list)
+                    response.body()?.results?.let { list.addAll(it) }
+                    movieData.value = list
                 }
             }
-
             override fun onFailure(call: Call<PopularMovies>, t: Throwable) {
-                Log.i("Retrofit", "Failed $t")
+                Log.e("Error","$t")
             }
-
         })
     }
 
-    fun updateMovieDetailsUI(movieDetails: MovieDetailModel?) {
-        Log.i("Retrofit", "updateMovieDetailsUI -->")
-        movieDetailsLiveData.value = movieDetails
-
-    }
-
-    fun updateDashboardUI(list: List<MovieResult>) {
-        Log.i("pagination", "This is after network call observer will be triggered now-->")
-        Log.i("pagination", "list.size--> ${list.size}")
-        movieData.value = list
-
+    fun getRtRdEtc(it: MovieDetailModel): CharSequence? {
+        var rating = "Rating :NA"
+        if (it.adult == true) {
+            rating = "Rating :R"
+        }
+        return rating + " |  Duration: " + it.runtime + "  min |   " + it.releaseDate
     }
 
 }

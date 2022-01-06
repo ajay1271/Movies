@@ -6,7 +6,9 @@ import android.view.View.MeasureSpec
 import android.view.ViewGroup
 import android.widget.GridView
 
-
+/*
+ * A custom class to to make gridview expandable on screen
+ */
 class ExpandableHeightGridView : GridView {
     var isExpanded = false
 
@@ -19,7 +21,6 @@ class ExpandableHeightGridView : GridView {
     }
 
     public override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        // HACK! TAKE THAT ANDROID!
         if (isExpanded) {
             // Calculate entire height by providing a very large height hint.
             // View.MEASURED_SIZE_MASK represents the largest height possible.
