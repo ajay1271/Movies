@@ -9,14 +9,14 @@ import android.widget.ImageView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.ajayspace.api.Constants
 import com.ajayspace.models.MovieResult
 import com.bumptech.glide.Glide
 
-class SliderAdapter(val viewPager2: ViewPager2, private val images: List<MovieResult>, private var context:Context?) :RecyclerView.Adapter<SliderAdapter.SliderViewHolder>(){
+class SliderAdapter(val viewPager2: ViewPager2, private val images: List<MovieResult>, private var context: Context?) : RecyclerView.Adapter<SliderAdapter.SliderViewHolder>() {
 
 
-    //
-    class SliderViewHolder(val itemView: View): RecyclerView.ViewHolder(itemView){
+    class SliderViewHolder(val itemView: View) : RecyclerView.ViewHolder(itemView) {
         var img = itemView.findViewById<ImageView>(R.id.image_slider)
     }
 
@@ -27,12 +27,9 @@ class SliderAdapter(val viewPager2: ViewPager2, private val images: List<MovieRe
     }
 
     override fun onBindViewHolder(holder: SliderViewHolder, position: Int) {
-        var img  = holder.img
+        var img = holder.img
 
-      //  img.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
-
-       // Log.i("Retrofit",images[position])
-        context?.let { Glide.with(it).load(images[position].backdrop_path).into(img) };
+        context?.let { Glide.with(it).load(Constants.BACKDROP_IMG_BASE_URL + images[position].backdrop_path).into(img) };
 
         img.setOnClickListener {
             var movieId = 0;
@@ -41,7 +38,6 @@ class SliderAdapter(val viewPager2: ViewPager2, private val images: List<MovieRe
 
             movieId = images[position].id
 
-          //  Toast.makeText(context, "${result?.get(position)?.id}", Toast.LENGTH_LONG).show()
             it.findNavController()
                 .navigate(MoviesFragmentDirections.actionMoviesFragmentToDetailsFragment(movieId))
         }
@@ -49,9 +45,8 @@ class SliderAdapter(val viewPager2: ViewPager2, private val images: List<MovieRe
     }
 
 
-
     override fun getItemCount(): Int {
-      return images.size
+        return images.size
     }
 
 }

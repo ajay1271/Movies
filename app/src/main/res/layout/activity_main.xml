@@ -31,11 +31,18 @@
             app:title="Hello"
             app:titleCentered="true"
             app:titleTextColor="@color/white" >
-            
+
         </com.google.android.material.appbar.MaterialToolbar>
 
 
     </com.google.android.material.appbar.AppBarLayout>
+
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
 
         <fragment
             android:id="@+id/nav_fragment"
@@ -45,6 +52,13 @@
             app:defaultNavHost="true"
             app:navGraph="@navigation/navigation" />
 
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/navView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:menu="@menu/navdrawer_menu" />
 
+    </androidx.drawerlayout.widget.DrawerLayout>
 
 </LinearLayout>

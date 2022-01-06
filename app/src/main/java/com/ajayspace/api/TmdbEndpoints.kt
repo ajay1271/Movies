@@ -20,13 +20,14 @@ interface TmdbEndpoints {
     @GET("/3/movie/{movie_id}")
     fun getMovieDetails( @Path("movie_id") id: Int, @Query("api_key") key: String): Call<MovieDetailModel>
 
+    @GET("/3/search/movie")
+    fun searchMovies(@Query("api_key") key: String,@Query("query") query:String): Call<PopularMovies>
 
 
 }
 
 object ServiceBuilder {
     private val client = OkHttpClient.Builder().build()
-
     private val retrofit = Retrofit.Builder()
         .baseUrl("https://api.themoviedb.org/")
         .addConverterFactory(GsonConverterFactory.create())

@@ -9,4 +9,6 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     <string name="no_response">No Response</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+    <string name="searching">searching..</string>
+    <string name="hello">Hello</string>
 </resources>
