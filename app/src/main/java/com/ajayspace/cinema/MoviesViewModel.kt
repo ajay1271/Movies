@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ajayspace.api.Constants
 import com.ajayspace.api.ServiceBuilder
 import com.ajayspace.api.TmdbEndpoints
 import com.ajayspace.models.MovieDetailModel
@@ -16,8 +17,6 @@ import retrofit2.Response
 
 class MoviesViewModel : ViewModel() {
 
-    private var baseBackdropBase: String = "https://image.tmdb.org/t/p/original/"
-    private var posterBase: String = "https://image.tmdb.org/t/p/w342/"
 
     var page = 1;
     var list = mutableListOf<MovieResult>()
@@ -53,7 +52,7 @@ class MoviesViewModel : ViewModel() {
         val request = ServiceBuilder.buildService(TmdbEndpoints::class.java)
 
 
-        val movieDetailsCall = request.getMovieDetails(movieId, "2bfc2845a8e711f212828a7f8d23d3a7")
+        val movieDetailsCall = request.getMovieDetails(movieId, Constants.API_KEY)
 
         var url = movieDetailsCall.request().url.toString()
 
@@ -89,7 +88,7 @@ class MoviesViewModel : ViewModel() {
         Log.i("Retrofit", "getMoviesData-->")
 
         val request = ServiceBuilder.buildService(TmdbEndpoints::class.java)
-        val call = request.getMovies("2bfc2845a8e711f212828a7f8d23d3a7", page)
+        val call = request.getMovies(Constants.API_KEY, page)
 
         Log.i("Retrofit", "Retrofit url-->${call.request().url.toString()}")
 
@@ -101,8 +100,8 @@ class MoviesViewModel : ViewModel() {
                 if (response.isSuccessful) {
                     Log.i("Retrofit", "success")
                     response.body()?.results?.forEach {
-                        it.backdrop_path = baseBackdropBase + it.backdrop_path
-                        it.poster_path = posterBase + it.poster_path
+                        it.backdrop_path = Constants.BACKDROP_IMG_BASE_URL + it.backdrop_path
+                        it.poster_path = Constants.POSTER_BASE_URL + it.poster_path
                         list.add(it)
                     }
                     updateDashboardUI(list)

@@ -34,22 +34,18 @@ class MoviesFragment : Fragment() {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
 
-        fragmentMoviesBinding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.fragment_movies, container, false
-        )
+        //Data Binding
+        fragmentMoviesBinding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_movies, container, false)
 
         gridView = fragmentMoviesBinding.gridView
 
-
         attachListener()
-
-
         attachObservers()
 
         return fragmentMoviesBinding.root
@@ -57,9 +53,13 @@ class MoviesFragment : Fragment() {
 
 
     private fun attachListener() {
-        fragmentMoviesBinding.scrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-            if (scrollY > scrollX) {
 
+        //
+        // Pagination Logic when scrolled all the way down diff will be zero
+        //
+        fragmentMoviesBinding.scrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+
+            if (scrollY > scrollX) {
                 val rect = Rect()
 
                 //Pagination Logic
@@ -68,18 +68,15 @@ class MoviesFragment : Fragment() {
                             (fragmentMoviesBinding.scrollView.getHeight() + fragmentMoviesBinding.scrollView
                                 .getScrollY())
 
-              //  Log.i("pagination", "diff-->$diff")
 
                 if (diff == 0) {
                     Log.i("pagination", "UI update called-->")
-                    Log.i("pagination", "list size-->${model.list.size}")
-                  //  Toast.makeText(context, "Loading more Data", Toast.LENGTH_SHORT).show()
-                    //model.page += 1
-                    //model.getMovies()
-                    Log.i("pagination", "end-->")
+                    Toast.makeText(context, "Loading more Data", Toast.LENGTH_SHORT).show()
+                    model.page += 1
+                    model.getMovies()
                 }
 
-
+                //App Bar title willbe changed based on the Now Showing text visibility on screen when scrolled
                 if (!fragmentMoviesBinding.nowShowingTitle.getGlobalVisibleRect(rect)) {
                     (activity as MainActivity).supportActionBar?.title = "Now Showing"
                 }
@@ -87,48 +84,32 @@ class MoviesFragment : Fragment() {
                     (activity as MainActivity).supportActionBar?.title = "Movies"
                 }
 
-                Log.i("ViewPager", "viewPager visibility ${viewPager.getGlobalVisibleRect(rect)}")
-            } else {
-                Toast.makeText(context, "Scrolling Up", Toast.LENGTH_SHORT).show()
-                Log.i(
-                    "ViewPager",
-                    "viewPager visibility ${fragmentMoviesBinding.viewPagerImgSlider.isFocused}"
-                )
             }
         })
     }
 
     private fun attachObservers() {
+
+        //Live data (movieData) change in value triggers this function
         model.movieData.observe(viewLifecycleOwner, Observer { it ->
-            Log.i("pagination", "Observer triggered-->")
-            //test(it)
-            var list = ArrayList<String>()
-
-            it.forEach {
-                list.add(it.backdrop_path)
-            }
-
-            Log.i("Retrofit", "updating UIin fragment triggered()-->")
-            Log.i("Retrofit", it.toString())
+            //Updating viewpaget first then grid view
             updateViewPager(it)
             updateGridView(it)
         }
-
         )
     }
 
 
     private fun updateGridView(it: List<MovieResult>?) {
 
+        //Custom Grid view has been used to drag other elements in view when gridview is scrolled (using nested scrollview)
         val mainAdapter = GridAdapter(activity, it)
         gridView.adapter = mainAdapter
         gridView.isExpanded = true;
         gridView.isVerticalScrollBarEnabled = false
-
     }
 
     private fun updateViewPager(imagesList: List<MovieResult>) {
-        Log.i("Retrofit", "updateViewPager triggered()-->")
         imageItemList = ArrayList()
         viewPager = fragmentMoviesBinding.viewPagerImgSlider
         viewPager.visibility = GONE

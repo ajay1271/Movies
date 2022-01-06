@@ -40,25 +40,6 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.setBackgroundDrawable(colorDrawable)
 
-        var nav_view = findViewById<NavigationView>(R.id.navView)
-        var drawerLayout = findViewById<DrawerLayout>(R.id.drawerLayout)
-
-        NavigationUI.setupWithNavController(nav_view, navController)
-
-        //NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
-
-        NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
-
-
-
-
-
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = this.findNavController(R.id.nav_fragment)
-        var drawerLayout = findViewById<DrawerLayout>(R.id.drawerLayout)
-        return NavigationUI.navigateUp(navController, drawerLayout)
     }
 
 }

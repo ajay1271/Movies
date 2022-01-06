@@ -22,14 +22,14 @@ class SliderAdapter(val viewPager2: ViewPager2, private val images: List<MovieRe
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SliderViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.img_item, parent, false)
+            .inflate(R.layout.img_pager, parent, false)
         return SliderViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: SliderViewHolder, position: Int) {
         var img  = holder.img
 
-        img.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+      //  img.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
 
        // Log.i("Retrofit",images[position])
         context?.let { Glide.with(it).load(images[position].backdrop_path).into(img) };

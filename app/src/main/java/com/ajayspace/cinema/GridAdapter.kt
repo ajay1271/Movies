@@ -40,10 +40,10 @@ class GridAdapter(var activity: FragmentActivity?, var result: List<MovieResult>
             convertView = LayoutInflater.from(activity).inflate(R.layout.img_item, parent, false);
         }
 
-        img = convertView!!.findViewById(R.id.image_slider)
+        img = convertView!!.findViewById(R.id.img)
 //        img.layoutParams.height = 600;
-//        img.layoutParams.width = 350;
-//        img.layoutParams.height = 600;
+        img.layoutParams.width = 350;
+        img.layoutParams.height = 600;
 
         Log.i("fx","img--->${result?.get(position)?.poster_path}")
 
