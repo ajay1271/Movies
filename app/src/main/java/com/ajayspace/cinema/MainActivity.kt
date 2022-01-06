@@ -12,6 +12,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.ui.NavigationUI
 import android.view.View
+import android.view.View.GONE
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
@@ -44,6 +45,9 @@ class MainActivity : AppCompatActivity() {
 
         NavigationUI.setupWithNavController(nav_view, navController)
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
+        //setting fragment outside of drawer layout in xml so disabling it wont affect fragment visibility
+        drawerLayout.visibility= GONE
+
     }
 
     override fun onSupportNavigateUp(): Boolean {

@@ -44,21 +44,25 @@
         android:layout_height="match_parent">
 
 
-        <fragment
-            android:id="@+id/nav_fragment"
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:defaultNavHost="true"
-            app:navGraph="@navigation/navigation" />
-
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/navView"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
+            app:headerLayout="@layout/nav_header"
             app:menu="@menu/navdrawer_menu" />
 
     </androidx.drawerlayout.widget.DrawerLayout>
+
+<!--    fragment out of nav drawer so drawer can be disabled without affecting fragment-->
+
+    <fragment
+        android:id="@+id/nav_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/navigation" />
+
 
 </LinearLayout>
