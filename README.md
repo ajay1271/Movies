@@ -1,4 +1,4 @@
-# Movies-Anrdoid
+# Movies-Android
 
 Movies is a movie listing app built using Tmdb API. Developed with..
 
