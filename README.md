@@ -18,7 +18,7 @@ ________________________________________________________________________________
 
 <p float="left">
   
-  <img src="https://github.com/ajay1271/Movies-Anrdoid/blob/main/app/src/main/res/drawable/Screenshot_20220120-195801_Cinema.jpg" width="300" /> 
-  <img src="https://github.com/ajay1271/Movies-Anrdoid/blob/main/app/src/main/res/drawable/Screenshot_20220120-200008_Cinema.jpg" width="300" />
-  <img src="https://github.com/ajay1271/Movies-Anrdoid/blob/main/app/src/main/res/drawable/Screenshot_20220120-200040_Cinema.jpg" width="300" />
+  <img src="https://github.com/ajay1271/Movies-Anrdoid/blob/main/app/src/main/res/drawable/Screenshot_20220120-195801_Cinema.jpg" width="250" /> 
+  <img src="https://github.com/ajay1271/Movies-Anrdoid/blob/main/app/src/main/res/drawable/Screenshot_20220120-200008_Cinema.jpg" width="250" />
+  <img src="https://github.com/ajay1271/Movies-Anrdoid/blob/main/app/src/main/res/drawable/Screenshot_20220120-200040_Cinema.jpg" width="250" />
 </p>
