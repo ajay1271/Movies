@@ -1,6 +1,6 @@
 # Movies-Anrdoid
 
-Movies is a movie listing app. Utilising Tmdb API.
+Movies is a movie listing app built using Tmdb API. Developed with..
 
 1. Single Activity Architecture
 2. MVVM
@@ -14,11 +14,6 @@ Movies is a movie listing app. Utilising Tmdb API.
 
 # Preview 👀
 
-___________________________________________________________________________________________________________________________________________________________________________
 
-<p float="left">
-  
-  <img src="https://github.com/ajay1271/Movies-Anrdoid/blob/main/app/src/main/res/drawable/Screenshot_20220120-195801_Cinema.jpg" width="250" /> 
-  <img src="https://github.com/ajay1271/Movies-Anrdoid/blob/main/app/src/main/res/drawable/Screenshot_20220120-200008_Cinema.jpg" width="250" />
-  <img src="https://github.com/ajay1271/Movies-Anrdoid/blob/main/app/src/main/res/drawable/Screenshot_20220120-200040_Cinema.jpg" width="250" />
-</p>
+
+![Cinema_2022-01-20-20-32-56_001_AdobeCreativeCloudExpress](https://user-images.githubusercontent.com/11904631/150367048-c0b6b9ce-ef6e-478c-9b48-6e653b14c139.gif)
