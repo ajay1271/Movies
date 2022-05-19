@@ -1,15 +1,6 @@
 # Movies-Android
 
-Movies is a movie listing app built using Tmdb API. Developed with..
-
-1. Single Activity Architecture
-2. MVVM
-3. Retrofit2
-4. Data Binding
-5. ViewModels
-6. LiveData
-7. Coroutines
-8. Jetpack Navigation
+Movies is a movie listing app built using Tmdb API. 
 
 
 # Preview 👀
